@@ -6,11 +6,33 @@
 
 <script>
 import AuthenticationService from "@/services/authentication.service";
+import RoleService from "@/services/role.service";
 import "vuejs-noty/dist/vuejs-noty.css";
 
 export default {
   name: "App",
   methods: {
+    async setClientRoles() {
+      if (this.$store.state.uid !== "" || this.$store.state.key !== "") {
+        const config = {
+          headers: {
+            access: this.$store.state.token,
+            user_identification: this.$store.state.uid,
+            user_identification_key: this.$store.state.key
+          }
+        };
+        const data = { uid: this.$store.state.uid };
+        const response_role = await RoleService.getRoleByUID(data, config);
+         //console.log(response_role);
+        const result_name = response_role.data.role.map(a => a.name);
+        const result_id = response_role.data.role.map(a => a._id);
+        const result_priority = response_role.data.role.map(a => a.priority);
+        //console.log(result_id);
+        //console.log(result_name);
+        //console.log(result_priority);
+        await this.$store.dispatch("setRole", {name: result_name[0], id: result_id[0], priority: result_priority[0]})
+      }
+    },
     async check_login_state() {
       if (
         !this.$store.state.isUserLoggedIn &&
@@ -19,7 +41,7 @@ export default {
         await this.$router.push({ name: "login" });
       }
     },
-    async key_login(){
+    async key_login() {
       const cookieKey = this.$cookie.get("key");
       const cookieUID = this.$cookie.get("uid");
       //start automatic login process on every site if remember me is active//
@@ -31,6 +53,7 @@ export default {
       if (response_login.data.error === false) {
         await this.$store.dispatch("setUID", cookieUID);
         await this.$store.dispatch("setToken", response_login.data.token);
+        await this.$store.dispatch("setKey", cookieKey);
       }
     }
   },
@@ -38,11 +61,13 @@ export default {
     this.$nextTick(async function() {
       await this.key_login();
       await this.check_login_state();
+      await this.setClientRoles();
     });
   },
   watch: {
-    $route(to, from) {
-      this.check_login_state();
+    async $route(to, from) {
+      await this.check_login_state();
+      await this.setClientRoles();
     }
   }
 };

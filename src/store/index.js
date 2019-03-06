@@ -8,7 +8,13 @@ export default new Vuex.Store({
   state: {
     uid: '',
     isUserLoggedIn: false,
-    token: null
+    token: null,
+    key: null,
+    role: [{
+      name: null,
+      id: null,
+      priority: null
+    }]
   },
   mutations: {
     setUID(state, uid) {
@@ -21,6 +27,12 @@ export default new Vuex.Store({
     },
     setToken(state, token) {
       state.token = token
+    },
+    setRole(state, role){
+      state.role = role
+    },
+    setKey(state, key){
+      state.key = key
     }
   },
   actions: {
@@ -29,6 +41,13 @@ export default new Vuex.Store({
     },
     setToken({ commit }, token) {
       commit('setToken', token)
+    },
+    
+    setKey({ commit }, key) {
+      commit('setKey', key)
+    },
+    setRole({ commit }, role) {
+      commit('setRole', role)
     }
   }
 
