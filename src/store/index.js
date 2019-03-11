@@ -8,8 +8,8 @@ export default new Vuex.Store({
   state: {
     uid: '',
     isUserLoggedIn: false,
-    token: null,
-    key: null,
+    token: '',
+    key: '',
     role: [{
       name: null,
       id: null,

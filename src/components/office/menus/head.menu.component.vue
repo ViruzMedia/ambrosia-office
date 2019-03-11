@@ -1,6 +1,4 @@
-<template>
-  <div class="head_menu">
-      <div class="right-panel">
+<template class="head_menu">
     <header id="header" class="header">
       <div class="top-left">
         <div class="navbar-header">
@@ -130,7 +128,11 @@
               aria-haspopup="true"
               aria-expanded="false"
             >
-              <img class="user-avatar rounded-circle" src="static/assets/images/admin.jpg" alt="User Avatar">
+              <img
+                class="user-avatar rounded-circle"
+                src="static/assets/images/admin.jpg"
+                alt="User Avatar"
+              >
             </a>
 
             <div class="user-menu dropdown-menu">
@@ -155,8 +157,6 @@
         </div>
       </div>
     </header>
-      </div>
-  </div>
 </template>
 
 <script>

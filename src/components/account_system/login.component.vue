@@ -77,6 +77,7 @@ export default {
         this.$cookie.set("key", response.data.key, 7);
       }
       this.$store.dispatch("setUID", response.data.id);
+      this.$store.dispatch("setKey", response.data.key);
       this.$store.dispatch("setToken", response.data.token);
 
       await this.updateMessage(response);
